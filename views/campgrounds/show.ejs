@@ -1,19 +1,49 @@
 <% layout('layouts/boilerplate')%>
-    <h1>
-        <%= campground.title %>
-    </h1>
-    <h2>
-        <%= campground.location %>
-    </h2>
-    <img src="<%= campground.image %>" alt="">
-    <p><%= campground.description %></p>
-    
-    <p>
-        <button><a href="/campgrounds/<%= campground._id %>/edit" style="text-decoration: none; color: black;">Edit</a></button>
-        <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
-    </p>
-    <footer>
-        <button><a href="/campgrounds" style="text-decoration: none; color: black;">All Campgrounds</a></button>
-    </footer>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <img src="<%= campground.image %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= campground.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= campground.description %>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                            <path
+                                d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
+                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                        </svg>
+                        <%= campground.location %>
+                    </li>
+                    <li class="list-group-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-cash" viewBox="0 0 16 16">
+                            <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                            <path
+                                d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z" />
+                        </svg>
+                        $<%= campground.price %>/night
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <!-- <a href="/campgrounds/<%= campground._id %>/edit" class="card-link">Edit Campground</a>
+                    <a href="#" class="card-link">Delete Campground</a> -->
+                    <button class="btn btn-dark"><a href="/campgrounds/<%= campground._id %>/edit"
+                            style="text-decoration: none; color: black;" class="text-white">Edit</a></button>
+                    <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                    <button class="btn btn-primary"><a href="/campgrounds" style="text-decoration: none; color: black;"
+                            class="text-white">All Campgrounds</a></button>
+                </div>
+                <div class="card-footer text-body-secondary">
+                    2 days ago
+                </div>
+            </div>
+        </div>
+    </div>
