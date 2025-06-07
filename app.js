@@ -6,9 +6,14 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-const campgrounds = require('./routes/campgrounds')
-const reviews = require('./routes/reviews')
+const userRoutes = require('./routes/users')
+const campgroundRoutes = require('./routes/campgrounds')
+const reviewsRoutes = require('./routes/reviews');
+const user = require('./models/user');
 
 mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
@@ -41,7 +46,15 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
@@ -51,9 +64,9 @@ app.get('/', (req, res) => {
     res.render('campgrounds/home');
 })
 
-app.use('/campgrounds', campgrounds)
-
-app.use('/campgrounds/:id/reviews', reviews)
+app.use('/', userRoutes);
+app.use('/campgrounds', campgroundRoutes);
+app.use('/campgrounds/:id/reviews', reviewsRoutes);
 
 app.all(/(.*)/, (req, res, next) => {
     next(new ExpressError('Page Not Found!', 404));
