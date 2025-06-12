@@ -1,24 +1,45 @@
 <% layout('layouts/boilerplate')%>
+    <div id="map" style="width: 100%; height: 500px;"></div>
     <h1 class="mb-3">All Campgrounds</h1>
-    <button class="btn btn-dark mb-3"><a href="/campgrounds/new" style="text-decoration: none; color: black;" class="text-white">Add new campground</a></button>
+    <button class="btn btn-dark mb-3"><a href="/campgrounds/new" style="text-decoration: none; color: black;"
+            class="text-white">Add new campground</a></button>
     <ul>
         <% for(let campground of campgrounds) { %>
             <div class="card mb-3">
                 <div class="row">
                     <div class="col-md-4">
-                        <img class="img-fluid" src="<%= campground.images[0].url %>" alt="">
+                        <% if(campground.images.length) {%>
+                            <img class="img-fluid" src="<%= campground.images[0].url %>" alt="">
+                            <% } else { %>
+                                <img src="https://newhampshirestateparks-pl.static.reserveamerica.com/webphotos/originals/NH/pid270015/%7Bpht%7Ddry%20river%201%7Bpht%7D1481568854868.jpg"
+                                    class="img-fluid">
+                                <% } %>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title"><%= campground.title %></h5>
-                            <p class="card-text"><%= campground.description %></p>
+                            <h5 class="card-title">
+                                <%= campground.title %>
+                            </h5>
                             <p class="card-text">
-                                <small class="text-muted"><%= campground.location %></small>
+                                <%= campground.description %>
                             </p>
-                            <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">View <%= campground.title %></a>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <%= campground.location %>
+                                </small>
+                            </p>
+                            <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">View <%=
+                                    campground.title %></a>
                         </div>
                     </div>
                 </div>
             </div>
-        <% } %>
+            <% } %>
     </ul>
+
+    <script>
+        const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+        const campgrounds = { features: <%- JSON.stringify(campgrounds) %>}
+    </script>
+
+    <script src="/javascripts/clusterMap.js"></script>
